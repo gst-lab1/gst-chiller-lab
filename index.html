@@ -746,10 +746,15 @@ function buildSeatIpSelect(selId, currentIp='', excludeId=null){
   const sel=document.getElementById(selId);if(!sel)return;
   const usedIps=getUsedSeatIps(excludeId);
   sel.innerHTML='<option value="">미할당</option>';
+  const SEAT_IP_LABELS={
+    '192.168.12.238':'192.168.12.238 (SMPS Test 지그 고정)',
+  };
   SEAT_IP_POOL.forEach(ip=>{
     const inUse=usedIps.has(ip)&&ip!==currentIp;
     const opt=document.createElement('option');
-    opt.value=ip;opt.textContent=ip+(inUse?' ← 사용중':'');opt.disabled=inUse;
+    opt.value=ip;
+    opt.textContent=(SEAT_IP_LABELS[ip]||ip)+(inUse?' ← 사용중':'');
+    opt.disabled=inUse;
     sel.appendChild(opt);
   });
   sel.value=currentIp||'';
